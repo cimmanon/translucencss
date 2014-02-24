@@ -1,0 +1,24 @@
+$form-input-text: unquote('input[type="text"], input[type="password"], input[type="search"], input[type="email"], input[type="tel"], input[type="url"]');
+$form-input-buttons: unquote('input[type="submit"], input[type="reset"], input[type="button"], button');
+$form-input-dates: unquote('input[type^="date"], input[type="month"], input[type="week"], input[type="time"]');
+$form-input-not-radio: unquote('input:not([type="radio"]):not([type="checkbox"])');
+
+@mixin input-placeholder {
+	&::-webkit-input-placeholder {
+		@content;
+	}
+
+	// Firefox <19
+	&:-moz-placeholder {
+		@content;
+	}
+
+	// Firefox >19
+	&::-moz-placeholder {
+		@content;
+	}
+
+	&:-ms-input-placeholder {  
+		@content;
+	}
+}

@@ -1,0 +1,7 @@
+$is-ie: false !default;
+
+@mixin if-ie {
+	@if $is-ie {
+		@content;
+	}
+}

@@ -1,0 +1,16 @@
+@mixin bordered-table($border: 1px solid) {
+	border-collapse: collapse;
+	
+	th, td {
+		border: $border;
+		padding: .25em;
+
+		@content;
+	}
+}
+
+@mixin zebra-striping($position: even) {
+	tbody:nth-of-type(#{$position}) tr, tbody:only-of-type tr:nth-child(#{$position}) {
+		@content;
+	}
+}

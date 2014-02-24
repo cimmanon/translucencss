@@ -1,0 +1,35 @@
+@import "compass/css3/deprecated-support";
+
+$text-overflow-support: not webkit, not moz, o, not ms, not khtml;
+
+@mixin single-line-ellipsis($width: null) {
+	max-width: $width;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@mixin multi-line-ellipsis($background: white, $height: 1.4em) {
+	overflow: hidden;
+	position: relative;
+
+	&:after {
+		display: block;
+		height: $height;
+		content: ' ';
+		@include background(linear-gradient(rgba($background, 0), $background));
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+
+	@supports (text-overflow: -o-ellipsis-lastline) {
+		text-overflow: -o-ellipsis-lastline;
+		// no standard version of this value yet
+
+		&:after {
+			display: none;
+		}
+	}
+}

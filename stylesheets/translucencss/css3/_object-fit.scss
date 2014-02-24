@@ -1,0 +1,13 @@
+@import "compass/css3/deprecated-support";
+
+// http://dev.opera.com/articles/view/css3-object-fit-object-position/
+
+$object-fit-support: not webkit, not moz, o, not ms, not khtml;
+
+@mixin object-fit($value: contain) {
+	@include experimental(object-fit, $value, $object-fit-support...);
+}
+
+@mixin object-position($value: 50% 50%) {
+	@include experimental(object-position, $value, $object-fit-support...);
+}

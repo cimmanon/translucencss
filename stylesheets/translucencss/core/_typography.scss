@@ -1,0 +1,55 @@
+$baseline-block-margin: 1rem 0 !default;
+
+// $base-size 1em by default, but it might not be if you're nesting elements
+// Example
+// -------
+// body: 1em
+// p.special: 1.2em
+// p.special strong: 1em
+//	
+// If we want to scale `p.special strong` back to 1em, we need to feed $base-size as .83333 or scale-em(1.2, 1):
+//
+// p.special strong {
+//     @include rem(font-size, 1em, scale-em(1.2, 1));
+// }
+
+@mixin rem($property, $font-size, $desired-sizes: 1rem, $base-size: 1em) { // this mixin uses em and rem interchangeably
+	$ems: ();
+	$rems: ();
+	
+	@each $s in $desired-sizes {
+		$s: strip-unit($s);
+		$ems: append($ems, scale-em($font-size, $s, $base-size)); // scale-em already returns it into em
+		$rems: append($rems, if($s == 0, 0, $s * 1rem));
+	}
+
+	#{$property}: $ems;
+	#{$property}: $rems;
+}
+
+// @font-size:
+//		the size of the current element (eg. `1.5em`)
+// @desired-size:
+//		the desired output size (eg. `1em`)
+// @base-size:
+//		the size of the parent element if you're trying to scale it back to the baseline size (eg. `1.5em` or `.8em`)
+//		otherwise use the default of `1em` to signify no additional scaling
+@function scale-em($font-size, $desired-size, $parent-size: 1em) {
+//	@return if($desired-size == 0, 0, strip-unit($desired-size) / strip-unit($font-size) * strip-unit($parent-size) * 1em);
+	@return if($desired-size == 0, 0, strip-unit($desired-size) / strip-unit($font-size) * $parent-size);
+}
+
+// a map version of scale-em
+// @function scale-em-list($font-size, $desired-sizes: 1em, $base-size: 1em) {
+	// $collector: ();
+	
+	// @each $s in $desired-sizes {
+		// $collector: append($collector, scale-em($font-size, $s, $base-size));
+	// }
+	// @return $collector;
+// }
+
+//@mixin baseline-margins($font-size, $margin: $baseline-block-margin) {
+//	font-size: $font-size;
+//	margin: scale-em-list($font-size, $margin);
+//}

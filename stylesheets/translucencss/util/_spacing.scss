@@ -1,0 +1,14 @@
+@function even-spacing($val) {
+	$val: $val / 2;
+	@if $val == ceil($val) or unit($val) != px {
+		@return $val;
+	} @else {
+		@if $val > 0 {
+			@return ceil($val) ceil($val) floor($val) floor($val);
+		} @else {
+			// negative numbers have to be reversed otherwise they won't match up properly with positive numbers
+			// `-5px -5px -4px -4px` would get matched up with `4px 4px 5px 5px` otherwise
+			@return floor($val) floor($val) ceil($val) ceil($val);
+		}
+	}
+}

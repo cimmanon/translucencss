@@ -1,0 +1,33 @@
+@import "compass/css3/transform";
+
+// http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+@mixin vertical-center($position: relative) {
+	position: $position;
+	top: 50%;
+	@include transform(translateY(-50%));
+}
+
+@mixin block-centering {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+// http://www.sitepoint.com/css-extend-full-width-bars/
+@mixin full-width-overflow($align: center, $fallback: -50em) {
+	margin-left: $fallback;
+	margin-left: -50vw;
+	margin-right: $fallback;
+	margin-right: -50vw;
+
+	text-align: $align;
+
+	@if $align == left or $align == justify {
+		padding-left: $fallback;
+		padding-left: -50vw;
+	}
+
+	@if $align == right or $align == justify {
+		padding-right: $fallback;
+		padding-right: -50vw;
+	}
+}

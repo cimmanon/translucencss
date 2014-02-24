@@ -1,0 +1,109 @@
+// --------------------------------------------------------------------------------
+// Image Replacement:  apply a background image and hide the original content
+// --------------------------------------------------------------------------------
+
+$default-ir-technique: indent !default;
+
+// NOTE: pseudo and padding options need to be applied to inline elements,
+// instead of their parent block level element if they are intended to be linked
+// <h1><a href="#">Title Text Here</a></h1><!-- style the a, not the h1 -->
+
+// -------------------------------------------------------------------------------- Aliases
+
+// http://www.mezzoblue.com/tests/revised-image-replacement/#phark
+@mixin image-replacement-indent($image, $width, $height) {
+	@include image-replacement($image, $width, $height, indent);
+}
+
+// http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
+@mixin image-replacement-overflow($image, $width, $height) {
+	@include image-replacement($image, $width, $height, overflow);
+}
+
+// http://nicolasgallagher.com/css-image-replacement-with-pseudo-elements/
+@mixin image-replacement-pseudo($image, $width, $height) {
+	@include image-replacement($image, $width, $height, pseudo);
+}
+
+@mixin image-replacement-padding($image, $width, $height) {
+	@include image-replacement($image, $width, $height, padding);
+}
+
+// -------------------------------------------------------------------------------- Master Mixin
+
+// $type options: pseudo, overflow, padding, fontsize, indent
+@mixin image-replacement($image, $width, $height, $type: $default-ir-technique) {
+	@if $type != padding {
+		width: $width;
+		height: $height;
+	}
+	
+	@if $type == pseudo {
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		display: block;
+		
+		&:before {
+			content: url($image);
+			display: inline-block;
+			font-size: 0;
+			line-height: 0;
+		}
+	} @else {
+		background: url($image) no-repeat;
+		@if $type == overflow {
+			text-indent: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+		} @else if $type == padding {
+			width: 0;
+			height: 0;
+			padding-top: $height;
+			padding-left: $width;
+			overflow: hidden;
+		} @else { // indent
+			text-indent: -100em;
+		}
+	}
+}
+
+@mixin linked-image-replacement($width, $height, $image, $type: default) {
+	@include image-replacement($width, $height, $image, $type);
+	
+	@if $type != pseudo and $type != padding {
+		a { display: block; width: 100%; height: 100% }
+	}
+}
+
+// --------------------------------------------------------------------------------
+// SVG background: use background-size to hide the SVG background from older browsers
+// --------------------------------------------------------------------------------
+
+// This mixin expects the file to already have the `url()` around it,
+// this allows it to be used with Compass helper functions like `image-url()`
+@mixin svg-background($svg, $styles: 0 0 / auto auto no-repeat) {
+	background: $svg $styles;
+}
+
+// --------------------------------------------------------------------------------
+// Center and clip an image to specific dimensions
+// --------------------------------------------------------------------------------
+
+@mixin center-clip ($parent-dims, $clip-dims) {
+	$parent-width: nth($parent-dims, 1);
+	$parent-height: nth($parent-dims, 2);
+	
+	$clip-width: nth($clip-dims, 1);
+	$clip-height: nth($clip-dims, 2);
+	
+	$top: ($parent-height - $clip-height) / 2;
+	$left: ($parent-width - $clip-width) / 2;
+	$bottom: $parent-height - $top;
+	$right: $parent-width - $left;
+
+	clip: rect($top $right $bottom $left);
+	top: -$top;
+	left: -$left;
+}
+

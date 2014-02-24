@@ -1,0 +1,48 @@
+$headline-sizes: 2em 1.8em 1.4em 1.2em 1em .8em !default;
+$gh-selectors: 'section, article' !default;
+
+@mixin headings($from: 1, $to: 6) {
+	#{headings($from, $to)} {
+		@content;
+	}
+}
+
+@mixin headline-sizes($sizes: $headline-sizes, $margin: $baseline-block-margin) {
+	@warn "This mixin is deprecated";
+	@for $i from 1 through length($sizes) {
+		%h#{$i}-size {
+			$size: nth($sizes, $i);
+			font-size: $size;
+			@include rem(margin, $size, $margin)
+		}
+	}
+}
+
+@mixin graduated-headlines($hn, $sizes) {
+	@warn "This mixin is deprecated";
+	$sel: $gh-selectors;
+	@for $i from 1 through length($sizes) {
+		#{$sel} {
+			@for $j from 1 through $hn {
+				@if $i + $j - 1 <= length($sizes) {
+					h#{$j} {
+						font-size: nth($sizes, $i + $j - 1);
+					}
+				}
+			}
+		}
+		$sel: nest($sel, $gh-selectors);
+	}
+}
+
+@mixin graduated-headlines-extended($hn: 1, $min: 1, $max: 6) {
+	$sel: $gh-selectors;
+	@for $i from $min through $max {
+		#{$sel} {
+			@for $j from 1 through $hn {
+				h#{$j} { @extend h#{$i + $j - 1}%size !optional; }
+			}
+		}
+		$sel: nest($sel, $gh-selectors);
+	}
+}

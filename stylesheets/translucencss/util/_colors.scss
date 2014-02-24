@@ -1,0 +1,7 @@
+@function fade($color, $mod) {
+	@return desaturate(lighten($color, $mod), $mod);
+}
+
+@function contrast-style($color, $light, $dark) {
+	@return if(lightness($color) < 30%, $light, $dark);
+}

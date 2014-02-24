@@ -1,0 +1,76 @@
+@mixin inline-menu($type: inline, $child: li) {
+	@if $type == float {
+		@include clearfix;
+	}
+	
+	> #{$child} {
+		@if $type == float {
+			float: left;
+			//list-style: none;
+		} @else {
+			display: inline-block;
+		}
+		
+		@content;
+		
+		a { white-space: nowrap }
+	}
+}
+
+@mixin drop-menu($parent: ul) {
+	position: relative;
+	
+	#{$parent} {
+		display: none;
+	}
+
+	&:hover #{$parent}, &.active #{$parent}, &.opened {
+		display: block;
+		position: absolute;
+		@content;
+	}
+}
+
+@mixin button-group($orientation: horizontal, $radius: .25em, $child: li) {
+	display: table;
+
+	> #{$child} {
+		@if $orientation == horizontal {
+			display: table-cell;
+		} @else {
+			list-style: none;
+		}
+		
+		@content;
+		
+		+ #{$child} {
+			@if $orientation == horizontal {
+				border-left: none;
+			} @else {
+				border-top: none;
+			}
+		}
+		
+		@if $radius > 0 {
+			@include button-group-ends($orientation, $radius);
+		}
+	}
+}
+
+@mixin button-group-ends($orientation: horizontal, $radius: .25em) {
+	&:first-child {
+		@if $orientation == horizontal {
+			@include border-radius($radius 0 0 $radius);
+		} @else {
+			@include border-radius($radius $radius 0 0);
+		}
+	}
+	
+	&:last-child {
+		@if $orientation == horizontal {
+			@include border-radius(0 $radius $radius 0);
+		} @else {
+			@include border-radius(0 0 $radius $radius);
+		}
+	}
+}

@@ -1,0 +1,6 @@
+// @ratio: 3 / 4 | 75%
+@mixin aspect-ratio($ratio) {
+	content: '';
+	display: block;
+	padding-bottom: if(unitless($ratio), percentage($ratio), $ratio);
+}
