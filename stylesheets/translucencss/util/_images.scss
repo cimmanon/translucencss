@@ -49,6 +49,7 @@ $default-ir-technique: indent !default;
 			display: inline-block;
 			font-size: 0;
 			line-height: 0;
+			@content;
 		}
 	} @else {
 		background: url($image) no-repeat;
@@ -106,4 +107,3 @@ $default-ir-technique: indent !default;
 	top: -$top;
 	left: -$left;
 }
-
