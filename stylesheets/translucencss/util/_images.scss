@@ -55,13 +55,13 @@ $default-ir-technique: indent !default;
 		width: $width;
 		height: $height;
 	}
-	
+
 	@if $type == pseudo {
 		padding: 0;
 		margin: 0;
 		overflow: hidden;
 		display: block;
-		
+
 		&:before {
 			content: url($image);
 			display: inline-block;
@@ -89,7 +89,7 @@ $default-ir-technique: indent !default;
 
 @mixin linked-image-replacement($width, $height, $image, $type: default) {
 	@include image-replacement($width, $height, $image, $type);
-	
+
 	@if $type != pseudo and $type != padding {
 		a { display: block; width: 100%; height: 100% }
 	}
@@ -112,10 +112,10 @@ $default-ir-technique: indent !default;
 @mixin center-clip ($parent-dims, $clip-dims) {
 	$parent-width: nth($parent-dims, 1);
 	$parent-height: nth($parent-dims, 2);
-	
+
 	$clip-width: nth($clip-dims, 1);
 	$clip-height: nth($clip-dims, 2);
-	
+
 	$top: ($parent-height - $clip-height) / 2;
 	$left: ($parent-width - $clip-width) / 2;
 	$bottom: $parent-height - $top;
