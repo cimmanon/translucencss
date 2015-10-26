@@ -88,12 +88,11 @@ $flexbox-warnings: true !default;
 				@each $prop, $value in nth($styles, $i) {
 					@if $prop == display {
 						@if $show-unprefixed and not $current-prefix {
+							display: $value;
 							@if $flexbox-support == wrap {
-								@supports (flex-wrap: wrap) { // hide Flexbox from versions of Firefox that do not support wrapping
-									display: $value;
+								@supports not (flex-wrap: wrap) { // hide Flexbox from versions of Firefox that do not support wrapping
+									display: block;
 								}
-							} @else {
-								display: $value;
 							}
 						} @else {
 							display: prefix-identifier($value);
