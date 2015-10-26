@@ -1,4 +1,22 @@
 // --------------------------------------------------------------------------------
+// Hard stops: generate hard color stops for use with gradients
+// --------------------------------------------------------------------------------
+
+@function hard-stops($colors...) {
+	@if length($colors) == 1 {
+		$colors: nth($colors, 1);
+	}
+	$position: 0;
+	$stops: ();
+	@each $c in $colors {
+		$stops: append($stops, $c $position, comma);
+		$position: $position + (100% / length($colors));
+		$stops: append($stops, $c $position);
+	}
+	@return $stops;
+}
+
+// --------------------------------------------------------------------------------
 // Image Replacement:  apply a background image and hide the original content
 // --------------------------------------------------------------------------------
 
